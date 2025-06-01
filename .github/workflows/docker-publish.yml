@@ -28,4 +28,4 @@ jobs:
         run: docker build -t ghcr.io/${{ github.actor }}/${{ env.REPO_NAME_LC }}:latest .
 
       - name: Push Docker image
-        run: docker push ghcr.io/${{ github.actor }}/${{ env.REPO_NAME_LC }}:latest
+        run: docker build -t ghcr.io/roxane90/it-landscape:latest .
