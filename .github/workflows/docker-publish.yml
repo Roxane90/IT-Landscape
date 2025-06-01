@@ -30,4 +30,7 @@ jobs:
         run: docker build -t ghcr.io/${{ env.USER_NAME_LC }}/${{ env.REPO_NAME_LC }}:latest .
 
       - name: Push Docker image
-        run: docker push ghcr.io/${{ env.USER_NAME_LC }}/${{ env.REPO_NAME_LC }}:latest
+        run: docker push ghcr.io/${{ env.USER_NAME_LC }}/${{ env.REPO_NAME_LC }}:latest .
+      
+      - name: Show environment variables
+        run: env
