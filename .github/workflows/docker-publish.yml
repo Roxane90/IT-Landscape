@@ -13,9 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Convert repository name to lowercase
+      - name: Prepare lowercase repo and user
         id: prep
-        run: echo "REPO_NAME_LC=${GITHUB_REPOSITORY##*/}" | tr '[:upper:]' '[:lower:]' >> $GITHUB_ENV
+        run: |
+          echo "REPO_NAME_LC=$(echo ${GITHUB_REPOSITORY##*/} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+          echo "USER_NAME_LC=$(echo ${GITHUB_ACTOR} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
@@ -25,7 +27,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
-        run: docker build -t ghcr.io/${{ github.actor }}/${{ env.REPO_NAME_LC }}:latest .
+        run: docker build -t ghcr.io/${{ env.USER_NAME_LC }}/${{ env.REPO_NAME_LC }}:latest .
 
       - name: Push Docker image
-        run: docker build -t ghcr.io/roxane90/it-landscape:latest .
+        run: docker push ghcr.io/${{ env.USER_NAME_LC }}/${{ env.REPO_NAME_LC }}:latest
